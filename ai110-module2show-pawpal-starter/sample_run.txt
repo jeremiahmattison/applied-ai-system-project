@@ -1,0 +1,59 @@
+Model: gemini-3.1-flash-lite
+
+=== Case 1: Mochi (dog) ===
+Existing tasks: Morning walk, Feeding
+Retrieved 10 guideline(s); topics: Enrichment, Exercise, Feeding, Grooming, Health
+ACCEPTED: Evening walk for exercise | 30 min, high, daily at 18:00 | source: dog / Exercise | confidence 100%
+          guideline: Most adult dogs need 30 to 60 minutes of walking or active exercise every day, split into one or two walks.
+ACCEPTED: Second daily feeding | 10 min, high, daily at 18:00 | source: dog / Feeding | confidence 100%
+          guideline: Adult dogs should be fed twice a day, roughly 8 to 12 hours apart.
+ACCEPTED: Mental stimulation session | 15 min, medium, daily at 14:00 | source: dog / Enrichment | confidence 100%
+          guideline: Dogs need daily mental stimulation such as training, puzzle feeders, or play for 10 to 15 minutes.
+ACCEPTED: Monthly preventative medication | 5 min, high, once at 09:00 | source: dog / Health | confidence 100%
+          guideline: Give flea, tick, and heartworm prevention medication monthly.
+ACCEPTED: Annual veterinary checkup | 60 min, medium, once at 10:00 | source: dog / Health | confidence 100%
+          guideline: Schedule a vet checkup at least once a year, and twice a year for senior dogs.
+
+=== Case 2: Luna (cat) ===
+Existing tasks: Litter box cleaning
+Retrieved 11 guideline(s); topics: Enrichment, Exercise, Feeding, Grooming, Health, Litter box
+ACCEPTED: Interactive play session with wand toy | 15 min, high, daily at 09:00 | source: cat / Exercise | confidence 100%
+          guideline: Cats benefit from two or more interactive play sessions a day, each lasting 10 to 15 minutes.
+ACCEPTED: Second interactive play session | 15 min, high, daily at 18:00 | source: cat / Exercise | confidence 100%
+          guideline: Cats benefit from two or more interactive play sessions a day, each lasting 10 to 15 minutes.
+ACCEPTED: Deep clean litter box and replace litter | 30 min, medium, weekly at 10:00 | source: cat / Litter box | confidence 100%
+          guideline: Fully replace the litter and wash the box every 1 to 2 weeks.
+ACCEPTED: Brush cat's fur | 10 min, medium, weekly at 11:00 | source: cat / Grooming | confidence 90%
+          guideline: Brush short-haired cats weekly and long-haired cats daily to reduce hairballs.
+ACCEPTED: Trim cat's nails | 15 min, low, weekly at 12:00 | source: cat / Grooming | confidence 90%
+          guideline: Trim nails every 2 to 3 weeks.
+
+=== Case 3: Biscuit (hamster) ===
+Existing tasks: Feeding
+LOG WARNING: No guidelines for species 'hamster'; falling back to 'other'
+Retrieved 10 guideline(s); topics: Enrichment, Exercise, Feeding, Grooming, Habitat, Health
+ACCEPTED: Provide supervised time outside the cage for exercise | 30 min, high, daily at 19:00 | source: other / Exercise | confidence 100%
+          guideline: Every pet needs daily activity appropriate to its species, such as supervised time outside its cage or enclosure.
+ACCEPTED: Refresh water supply | 2 min, high, daily at 08:00 | source: other / Feeding | confidence 100%
+          guideline: Fresh water should be available at all times and refreshed daily.
+ACCEPTED: Spot-clean the enclosure | 10 min, medium, daily at 09:00 | source: other / Habitat | confidence 100%
+          guideline: Spot-clean the cage, tank, or enclosure daily, and do a full clean every 1 to 2 weeks.
+ACCEPTED: Perform weekly health check of nails, coat, and teeth | 15 min, medium, weekly at 10:00 | source: other / Grooming | confidence 100%
+          guideline: Check nails, coat, and teeth weekly, and groom as the species requires.
+ACCEPTED: Add new toys or foraging activities | 5 min, low, weekly at 11:00 | source: other / Enrichment | confidence 100%
+          guideline: Offer new toys, hiding spots, or foraging activities each week to prevent boredom.
+
+=== Schedule built from original + accepted tasks (90 min budget) ===
+Today's plan:
+1. [2026-11-16 07:00] Morning walk for Mochi (30 min, priority: high)
+2. [2026-11-16 18:00] Feeding for Mochi (10 min, priority: high)
+3. [2026-11-16 18:00] Evening walk for exercise for Mochi (30 min, priority: high)
+4. [2026-11-16 18:00] Second daily feeding for Mochi (10 min, priority: high)
+5. [2026-11-16 09:00] Monthly preventative medication for Mochi (5 min, priority: high)
+6. [2026-11-16 08:00] Refresh water supply for Biscuit (2 min, priority: high)
+Scheduling conflicts:
+- 2026-11-16 18:00: Feeding (Mochi), Evening walk for exercise (Mochi), Second daily feeding (Mochi), Second interactive play session (Luna)
+- 2026-11-16 09:00: Monthly preventative medication (Mochi), Litter box cleaning (Luna), Interactive play session with wand toy (Luna), Spot-clean the enclosure (Biscuit)
+- 2026-11-16 10:00: Annual veterinary checkup (Mochi), Deep clean litter box and replace litter (Luna), Perform weekly health check of nails, coat, and teeth (Biscuit)
+- 2026-11-16 11:00: Brush cat's fur (Luna), Add new toys or foraging activities (Biscuit)
+- 2026-11-16 08:00: Feeding (Biscuit), Refresh water supply (Biscuit)

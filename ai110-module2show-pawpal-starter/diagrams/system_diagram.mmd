@@ -1,0 +1,54 @@
+%% PawPal+ system diagram: components, data flow, and where checks happen.
+%% Render with any Mermaid viewer (GitHub, VS Code Mermaid preview, mermaid.live).
+flowchart TD
+    %% ---------- Input ----------
+    user([Pet owner]):::human
+    ui["Streamlit UI<br/>app.py"]
+    user -- "owner, pets, tasks,<br/>available minutes" --> ui
+
+    %% ---------- Core model + scheduler ----------
+    model["Data model<br/>Owner / Pet / Task<br/>diagrams/pawpal_system.py"]
+    scheduler["Scheduler<br/>priority plan, time sort,<br/>conflicts, recurrence, filters"]
+    plan[/"Daily plan + conflict warnings"/]
+    ui --> model
+    model -- "all pending tasks" --> scheduler
+    scheduler --> plan
+    plan -- "shown to owner" --> user
+
+    %% ---------- RAG feature ----------
+    ui -- "click: Suggest tasks" --> retriever
+    model -- "species + current tasks" --> retriever
+    kb[("Care guidelines<br/>knowledge/dog.md, cat.md, other.md")]
+    retriever["Retriever<br/>retriever.py<br/>keyword match, best 2 chunks per topic"]
+    kb --> retriever
+    retriever -- "numbered guidelines" --> prompt["Prompt builder<br/>suggester.py"]
+    model -- "existing tasks" --> prompt
+    prompt --> llm{{"Gemini API<br/>suggests tasks, cites a guideline,<br/>self-rates confidence"}}
+
+    %% ---------- Guardrails ----------
+    llm -- "JSON suggestions" --> validator{"Validator<br/>valid fields? cites a retrieved<br/>guideline? not a duplicate?<br/>confidence >= 0.5?"}
+    validator -- "fails" --> rejected["Dropped and logged<br/>UI shows how many were hidden"]
+    llm -. "API error, refusal,<br/>cut off, bad JSON" .-> fallback["Friendly error message<br/>guidelines still shown"]
+    validator -- "passes" --> review
+
+    %% ---------- Human check ----------
+    review[/"Suggestions shown with<br/>source guideline and confidence"/]
+    review --> decision{"Owner reviews"}:::human
+    decision -- "Add this task" --> model
+    decision -- "ignore" --> discard["Not added"]
+
+    %% ---------- Logging and testing ----------
+    logs[("Logs<br/>retrieval, rejections, errors")]
+    retriever -.-> logs
+    validator -.-> logs
+    fallback -.-> logs
+    logs -. "developer reviews" .-> dev([Developer]):::human
+
+    tests["pytest suite, 51 tests<br/>scheduler, retriever,<br/>suggester with a fake model client"]:::test
+    tests -. "checks" .-> scheduler
+    tests -. "checks" .-> retriever
+    tests -. "checks" .-> validator
+    dev -. "runs" .-> tests
+
+    classDef human fill:#fde9c9,stroke:#b36b00,color:#000
+    classDef test fill:#d9f0d9,stroke:#2d7a2d,color:#000
